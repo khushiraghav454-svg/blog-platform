@@ -1,0 +1,60 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+}
+
+/* container */
+.container {
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+}
+
+/* navbar */
+.navbar {
+  background: #222;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  margin-left: 15px;
+}
+
+/* card */
+.card {
+  background: white;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* form */
+.form {
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+  width: 350px;
+  margin: auto;
+}
+
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+button {
+  padding: 10px 15px;
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
