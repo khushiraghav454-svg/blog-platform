@@ -1,60 +1,209 @@
+ /* ===============================
+   GLOBAL RESET
+=================================*/
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f4f6f8;
+  background-color: #f5f1e8; /* soft beige */
 }
-
-/* container */
+/* ===============================
+   CONTAINER
+=================================*/
 .container {
-  width: 80%;
+  width: 85%;
   margin: auto;
-  padding: 20px;
+  padding: 30px 0;
 }
 
-/* navbar */
+/* ===============================
+   NAVBAR
+=================================*/
 .navbar {
-  background: #222;
-  color: white;
-  padding: 15px;
+  background-color: #2f5d50; /* deep green */
+  padding: 18px 50px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
-.navbar a {
-  color: white;
+/* Logo */
+.logo {
+  color: #f5f1e8;
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Nav Links */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav-right a {
+  color: #f5f1e8;
   text-decoration: none;
-  margin-left: 15px;
+  font-size: 16px;
+  font-weight: 500;
+  position: relative;
+  transition: 0.3s ease;
 }
 
-/* card */
+/* Hover underline animation */
+.nav-right a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: #c7e8ca;
+  left: 0;
+  bottom: -6px;
+  transition: 0.3s;
+}
+
+.nav-right a:hover {
+  color: #c7e8ca;
+}
+
+.nav-right a:hover::after {
+  width: 100%;
+}
+
+/* ===============================
+   PAGE TITLE
+=================================*/
+.page-title {
+  text-align: center;
+  color: #2f5d50;
+  margin-bottom: 30px;
+}
+
+/* ===============================
+   CARDS
+=================================*/
 .card {
-  background: white;
-  padding: 15px;
-  margin: 15px 0;
-  border-radius: 6px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 10px;
+  border-left: 6px solid #7ba892;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
 }
 
-/* form */
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card h3 {
+  margin-top: 0;
+  color: #2f5d50;
+}
+
+.card p {
+  color: #555;
+}
+
+/* Read More Link */
+.read-more {
+  display: inline-block;
+  margin-top: 10px;
+  color: #2f5d50;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}
+
+/* ===============================
+   FORMS
+=================================*/
 .form {
-  background: white;
-  padding: 20px;
-  border-radius: 6px;
-  width: 350px;
-  margin: auto;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 380px;
+  margin: 50px auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.form h2 {
+  text-align: center;
+  color: #2f5d50;
 }
 
 .form input,
 .form textarea {
   width: 100%;
   padding: 10px;
+  margin: 12px 0;
+  border-radius: 6px;
+  border: 1px solid #cfcfcf;
+  font-size: 14px;
+}
+
+.form textarea {
+  resize: none;
+  height: 110px;
+}
+
+/* ===============================
+   FORM BUTTONS
+=================================*/
+.form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #2f5d50;
+  color: #f5f1e8;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 15px;
+  transition: 0.3s ease;
+}
+
+.form button:hover {
+  background-color: #24473d;
+  transform: translateY(-2px);
+}
+
+/* ===============================
+   HOME CENTER CARD 
+=================================*/
+.home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.home-card {
+  background-color: #ffffff;
+  padding: 40px;
+  width: 500px;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  border-top: 6px solid #2f5d50;
+}
+
+.home-card h1 {
+  color: #2f5d50;
+  margin-bottom: 15px;
+}
+
+.home-card p {
+  color: #555;
+  font-size: 16px;
   margin: 10px 0;
 }
 
-button {
-  padding: 10px 15px;
-  background: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
+.home-sub {
+  font-size: 14px;
+  color: #7a7a7a;
+}                     

@@ -1,82 +1,37 @@
-import { useState, useContext } from "react";
-import { loginUser } from "../services/authService";
-import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
 const Login = () => {
-  // State to store email and password
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [message, setMessage] = useState("");
 
-  // Get setUser from AuthContext to save logged-in user info
-  const { setUser } = useContext(AuthContext);
+  // Pre-fill token and user info on page load
+  useEffect(() => {
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YTE4MDIxY2E2NjY5MjQ2NGNjNjA5NyIsImlhdCI6MTc3MjQ3Mjc4MSwiZXhwIjoxNzcyNTU5MTgxfQ.b0DoVf460Vbalsy0dDw4cEy2YyzpJkk-Uqm6AWSLhcI";
+    const user = {
+      _id: "69a18021ca66692464cc6097",
+      username: "khushiii",
+      email: "khushi223@gmail.com",
+    };
 
-  const navigate = useNavigate();
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
 
-  // Function to handle login form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Basic validation
-    if (!form.email || !form.password) {
-      alert("Please enter both email and password");
-      return;
-    }
-
-    try {
-      // Call the login service with email and password
-      const res = await loginUser(form);
-
-      // Check if response has token
-      if (!res.token) {
-        console.warn("No token received from backend");
-        alert("Login failed. No token returned from server.");
-        return;
-      }
-
-      // Save user info in context
-      setUser(res.user);
-
-      // Save JWT token in localStorage for API requests
-      localStorage.setItem("token", res.token);
-      console.log("Token saved:", res.token);
-
-      alert("Logged in successfully");
-
-      // Redirect to home page
-      navigate("/");
-    } catch (err) {
-      console.error("Login error:", err.response || err);
-      alert(
-        "Login failed. Make sure your email and password match the backend user."
-      );
-    }
-  };
+    setMessage("✅ Token and user info loaded! You can now create posts.");
+  }, []);
 
   return (
-    <div className="container">
-      {/* Login Form */}
-      <form className="form" onSubmit={handleSubmit}>
-        <h2>Login</h2>
+    <div className="form">
+      <h2>Login</h2>
 
-        {/* Email Input */}
-        <input
-          placeholder="Enter your email"
-          type="email"
-          value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-        />
+      {message && (
+        <p style={{ color: message.startsWith("✅") ? "green" : "red" }}>
+          {message}
+        </p>
+      )}
 
-        {/* Password Input */}
-        <input
-          placeholder="Enter your password"
-          type="password"
-          value={form.password}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-        />
-
-        {/* Submit Button */}
-        <button type="submit">Login</button>
-      </form>
+      <p>
+        You are automatically logged in with the saved token. You can now go to
+        Create Post page.
+      </p>
     </div>
   );
 };

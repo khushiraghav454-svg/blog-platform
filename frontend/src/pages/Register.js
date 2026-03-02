@@ -1,69 +1,68 @@
-import { useState } from "react";
-import { registerUser } from "../services/authService";
+import React, { useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  // Default values for testing
-  const [form, setForm] = useState({ 
-    name: "", 
-    email: "", 
-    password: "" 
-  });
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  const submit = async (e) => {
+  const handleRegister = (e) => {
     e.preventDefault();
 
-    // Basic validation
-    if (!form.name || !form.email || !form.password) {
-      alert("Please fill all fields");
+    if (!name || !email || !password) {
+      setMessage("⚠️ Please fill all fields");
       return;
     }
 
-    try {
-      // Call backend to register
-      const res = await registerUser(form);
-
-      // Check backend response
-      if (!res || !res.user) {
-        alert("Registration failed: check backend response");
-        return;
-      }
-
-      alert("Registered successfully! Please login.");
-      navigate("/login");
-    } catch (err) {
-      console.error("Registration error:", err.response || err);
-
-      // Show backend error message if available
-      const message = err.response?.data?.message || "Registration failed";
-      alert(message);
-    }
+    axios
+      .post("http://localhost:5000/api/auth/register", { name, email, password })
+      .then((res) => {
+        console.log("Registered user:", res.data.user);
+        setMessage("✅ Registered successfully! You can now login.");
+        setName("");
+        setEmail("");
+        setPassword("");
+        // Redirect to login after a short delay
+        setTimeout(() => navigate("/login"), 1500);
+      })
+      .catch((err) => {
+        console.error(err.response || err);
+        const errMsg = err.response?.data?.message || "❌ Registration failed. Check backend.";
+        setMessage(errMsg);
+      });
   };
 
   return (
-    <div className="container">
-      <form className="form" onSubmit={submit}>
-        <h2>Register</h2>
+    <div className="form">
+      <h2>Register</h2>
 
+      {message && (
+        <p style={{ color: message.startsWith("✅") ? "green" : "red" }}>{message}</p>
+      )}
+
+      <form onSubmit={handleRegister}>
         <input
+          type="text"
           placeholder="Name"
-          value={form.name}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
 
         <input
-          placeholder="Email"
           type="email"
-          value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
-          placeholder="Password"
           type="password"
-          value={form.password}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
 
         <button type="submit">Register</button>
