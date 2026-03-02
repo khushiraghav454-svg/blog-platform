@@ -1,69 +1,58 @@
-import { useState } from "react";
-import { createPost } from "../services/postService";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import axios from "axios";
 
 const CreatePost = () => {
-  // State for post title and content
-  const [data, setData] = useState({ title: "", content: "" });
-  const navigate = useNavigate();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [message, setMessage] = useState("");
 
-  // Handle form submission
-  const submit = async (e) => {
-    e.preventDefault();
+  const createPost = () => {
+    const token = localStorage.getItem("token");
 
-    // Simple validation
-    if (!data.title || !data.content) {
-      alert("Please enter both title and content");
+    if (!token) {
+      setMessage("❌ You must be logged in to create a post!");
       return;
     }
 
-    try {
-      // Debug: show what we are sending
-      console.log("Sending post data:", data);
-
-      // Call the createPost service (Axios sends token automatically)
-      const response = await createPost(data);
-
-      // Debug: show what backend returns
-      console.log("Post created successfully:", response.data);
-
-      alert("Post created successfully!");
-
-      // Go back to home page to see the new post
-      navigate("/");
-    } catch (err) {
-      // Show detailed error
-      console.error("Error creating post:", err.response || err);
-      alert("Error creating post. Check console for details!");
-    }
+    axios
+      .post(
+        "http://localhost:5000/api/posts",
+        { title, content },
+        { headers: { Authorization: `Bearer ${token}` } } // <-- critical
+      )
+      .then((res) => {
+        setMessage("✅ Post created successfully!");
+        setTitle("");
+        setContent("");
+      })
+      .catch((err) => {
+        console.error(err.response || err);
+        if (err.response && err.response.status === 401) {
+          setMessage("❌ Unauthorized: please log in again.");
+        } else {
+          setMessage("❌ Failed to create post. Check backend.");
+        }
+      });
   };
 
   return (
-    <div className="container">
-      <div className="form">
-        <h2>Create Post</h2>
+    <div className="form">
+      <h2>Create Post</h2>
+      {message && <p>{message}</p>}
 
-        {/* Form */}
-        <form onSubmit={submit}>
-          {/* Post Title */}
-          <input
-            placeholder="Title"
-            value={data.title}
-            onChange={(e) => setData({ ...data, title: e.target.value })}
-          />
+      <input
+        type="text"
+        placeholder="Enter Title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+      <textarea
+        placeholder="Write your content here..."
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+      />
 
-          {/* Post Content */}
-          <textarea
-            placeholder="Content"
-            rows="6"
-            value={data.content}
-            onChange={(e) => setData({ ...data, content: e.target.value })}
-          />
-
-          {/* Submit Button */}
-          <button type="submit">Create</button>
-        </form>
-      </div>
+      <button onClick={createPost}>Create Post</button>
     </div>
   );
 };
