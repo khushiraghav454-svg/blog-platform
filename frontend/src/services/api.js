@@ -1,18 +1,15 @@
 import axios from "axios";
 
+// Your hardcoded token (the one you got from Postman)
+const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YTE4MDIxY2E2NjY5MjQ2NGNjNjA5NyIsImlhdCI6MTc3MjQ3Mjc4MSwiZXhwIjoxNzcyNTU5MTgxfQ.b0DoVf460Vbalsy0dDw4cEy2YyzpJkk-Uqm6AWSLhcI";
+
 // Axios instance with backend URL
 export const API = axios.create({
   baseURL: "http://localhost:5000/api", // your backend
-  headers: { "Content-Type": "application/json" },
-});
-
-// Attach JWT token automatically
-API.interceptors.request.use((req) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    req.headers.Authorization = `Bearer ${token}`;
-  }
-  return req;
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${TOKEN}`, // attach token here directly
+  },
 });
 
 // Optional: global 401 handler
