@@ -7,9 +7,9 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const logout = () => {
-    localStorage.removeItem("token"); 
-    setUser(null); 
-    navigate("/login"); 
+    localStorage.removeItem("token"); // remove JWT token
+    setUser(null); // clear user from context
+    navigate("/login"); // go to login page
   };
 
   if (!user) {
